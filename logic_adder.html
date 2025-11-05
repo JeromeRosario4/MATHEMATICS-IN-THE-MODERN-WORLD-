@@ -16,10 +16,52 @@
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.7;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background: #0a0a0f;
             color: #e2e8f0;
             min-height: 100vh;
             padding: 20px 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+            50% { opacity: 0.8; transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: rgba(99, 102, 241, 0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            animation: float 10s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
         }
 
         /* --- Layout & Container --- */
@@ -27,19 +69,23 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         /* --- Header --- */
         header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+            backdrop-filter: blur(20px);
             color: #ffffff;
-            padding: 3rem 2rem;
+            padding: 4rem 2rem;
             text-align: center;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
-            border-bottom: 2px solid #6366f1;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            margin: 0 20px;  /* Add side margins to match footer */
         }
 
         header::before {
@@ -49,35 +95,47 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
             animation: pulse 8s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.1); opacity: 0.5; }
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.3; }
+            50% { transform: scale(1.2) rotate(180deg); opacity: 0.6; }
         }
 
         header h1 {
             margin: 0;
-            font-size: 3rem;
-            font-weight: 800;
+            font-size: 3.5rem;
+            font-weight: 900;
             position: relative;
             z-index: 1;
-            letter-spacing: -1px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.8)); }
         }
 
         /* --- Navigation --- */
         nav {
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+            background: rgba(26, 26, 46, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 1.2rem 0;
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.3);
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.4);
+            border-left: 1px solid rgba(99, 102, 241, 0.2);
+            border-right: 1px solid rgba(99, 102, 241, 0.2);
+            margin: 0 20px;  /* Add side margins to match footer */
         }
 
         nav ul {
@@ -85,19 +143,21 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
         }
 
         nav ul li a {
             color: #a5b4fc;
             text-decoration: none;
             font-weight: 600;
-            padding: 0.7rem 1.5rem;
-            border-radius: 30px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-block;
             position: relative;
             overflow: hidden;
+            border: 2px solid transparent;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
         }
 
         nav ul li a::before {
@@ -108,49 +168,89 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            transition: left 0.3s ease;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: -1;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
         }
 
         nav ul li a:hover::before {
             left: 0;
         }
 
+        nav ul li a:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
         nav ul li a:hover {
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         /* --- Main Content --- */
         main {
-            background: linear-gradient(135deg, #1e1e3f 0%, #1a1a2e 100%);
-            padding: 3rem;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            margin-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(30, 30, 63, 0.8) 0%, rgba(26, 26, 46, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            padding: 3.5rem;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            margin: 0;  /* Reset margin */
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-top: none;
         }
 
         section {
             margin-bottom: 4rem;
-            animation: fadeIn 0.6s ease-out;
+            animation: fadeInUp 0.8s ease-out backwards;
+            padding: 2rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.4s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.2s; }
+        section:nth-child(3) { animation-delay: 0.3s; }
+        section:nth-child(4) { animation-delay: 0.4s; }
+        section:nth-child(5) { animation-delay: 0.5s; }
+
         h2 {
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 1.2rem;
+            margin-bottom: 2rem;
             position: relative;
-            font-weight: 800;
+            font-weight: 900;
+            letter-spacing: -1px;
         }
 
         h2::after {
@@ -158,56 +258,87 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
-            border-radius: 2px;
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(90deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            border-radius: 3px;
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);
         }
 
         h3 {
-            font-size: 1.6rem;
-            color: #a5b4fc;
-            margin: 2rem 0 1rem;
+            font-size: 1.8rem;
+            color: #c7d2fe;
+            margin: 2.5rem 0 1.2rem;
             font-weight: 700;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        h3::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+            animation: pulse 2s ease-in-out infinite;
         }
 
         p {
-            margin-bottom: 1.2rem;
-            font-size: 1.05rem;
+            margin-bottom: 1.3rem;
+            font-size: 1.08rem;
             color: #cbd5e1;
+            line-height: 1.8;
         }
 
         ul {
-            margin: 1rem 0 1rem 2rem;
+            margin: 1.5rem 0 1.5rem 2rem;
         }
 
         li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             color: #cbd5e1;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        li::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 12px;
+            width: 6px;
+            height: 6px;
+            background: #6366f1;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
         }
 
         strong {
             color: #e0e7ff;
             font-weight: 700;
+            padding: 2px 6px;
+            background: rgba(99, 102, 241, 0.15);
+            border-radius: 4px;
         }
 
         /* --- Tables (for Truth Tables) --- */
         table {
             width: 100%;
-            max-width: 550px;
+            max-width: 600px;
             border-collapse: separate;
             border-spacing: 0;
-            margin: 30px 0;
-            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
-            border-radius: 12px;
+            margin: 35px 0;
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.4);
+            border-radius: 16px;
             overflow: hidden;
-            background: #1a1a2e;
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
         }
 
         th, td {
-            padding: 16px 20px;
+            padding: 5px 24px;
             text-align: center;
-            font-size: 1.05rem;
+            font-size: 1.08rem;
         }
 
         th {
@@ -215,67 +346,143 @@
             color: white;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         }
 
         tbody tr {
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
         tbody tr:nth-child(even) {
-            background-color: rgba(99, 102, 241, 0.05);
+            background-color: rgba(99, 102, 241, 0.08);
+        }
+
+        
+
+        tbody tr:hover::before {
+            transform: scaleY(1);
         }
 
         tbody tr:hover {
-            background-color: rgba(99, 102, 241, 0.15);
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
             transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
         }
 
         td {
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
             color: #e0e7ff;
             font-weight: 600;
+            font-family: 'Courier New', monospace;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
         }
 
         /* --- Code Blocks (for Logic) --- */
         pre {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #c7d2fe;
-            padding: 24px;
-            border-radius: 12px;
+            padding: 28px;
+            border-radius: 16px;
             font-family: 'Fira Code', 'Courier New', Courier, monospace;
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             overflow-x: auto;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-            line-height: 1.8;
-            margin: 20px 0;
-            border-left: 4px solid #6366f1;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            line-height: 2;
+            margin: 25px 0;
+            border-left: 5px solid #6366f1;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        pre::before {
+            content: 'CODE';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 0.7rem;
+            color: rgba(99, 102, 241, 0.6);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        pre:hover {
+            transform: translateX(5px);
+            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.3);
         }
 
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 2.5rem;
             color: #a5b4fc;
             font-size: 0.95rem;
-            background: rgba(26, 26, 46, 0.6);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            margin: 0 20px;
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            margin: 0 20px;  /* Keep consistent margin */
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            100% { left: 200%; }
         }
 
         footer p {
             color: #cbd5e1;
             margin: 0;
+            position: relative;
+            z-index: 1;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
         
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            z-index: 1000;
+            transition: width 0.2s ease;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.8);
+        }
+
         /* --- Responsive Design --- */
         @media (max-width: 768px) {
             header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
 
             nav ul {
@@ -287,13 +494,19 @@
                 padding: 2rem 1.5rem;
             }
 
+            section {
+                padding: 1.5rem;
+            }
+
             h2 {
                 font-size: 2rem;
             }
 
             table {
                 font-size: 0.9rem;
+                table-layout: auto;
             }
+
 
             th, td {
                 padding: 12px 10px;
@@ -303,6 +516,8 @@
 </head>
 
 <body>
+    <!-- Scroll progress indicator -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
 
     <header>
         <h1>Logic and Computer Addition</h1>
@@ -337,51 +552,44 @@
                 
                 
                 <h3>AND Gate</h3>
-                <p>Outputs 1 **only if** Input A **AND** Input B are both 1.</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th colspan="2">Inputs</th>
-                            <th>Output</th>
-                        </tr>
-                        <tr>
-                            <th>A</th>
-                            <th>B</th>
-                            <th>A AND B</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p>Outputs 1 <strong>only if</strong> Input A <strong>AND</strong> Input B are both 1.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>A</th>
+                        <th>B</th>
+                        <th>A AND B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
 
                 <h3>OR Gate</h3>
-                <p>Outputs 1 **if** Input A **OR** Input B (or both) are 1.</p>
+                <p>Outputs 1 <strong>if</strong> Input A <strong>OR</strong> Input B (or both) are 1.</p>
                 <table>
                     <thead>
-                        <tr>
-                            <th colspan="2">Inputs</th>
-                            <th>Output</th>
-                        </tr>
                         <tr>
                             <th>A</th>
                             <th>B</th>
@@ -413,13 +621,9 @@
                 </table>
 
                 <h3>XOR Gate (Exclusive OR)</h3>
-                <p>This gate is crucial for addition. It outputs 1 **only if** the inputs are different. Think of it as "one or the other, but not both."</p>
+                <p>This gate is crucial for addition. It outputs 1 <strong>only if</strong> the inputs are different. Think of it as "one or the other, but not both."</p>
                 <table>
                     <thead>
-                        <tr>
-                            <th colspan="2">Inputs</th>
-                            <th>Output</th>
-                        </tr>
                         <tr>
                             <th>A</th>
                             <th>B</th>
@@ -463,21 +667,12 @@
                 <p>
                     A Half Adder is built using two basic gates:
                 </p>
-                <pre>
-Sum   = A XOR B
-Carry = A AND B
-                </pre>
-                
-
-[Image of a half adder logic diagram]
+                <pre>Sum   = A XOR B
+Carry = A AND B</pre>
 
                 <p>Here is the truth table for a Half Adder:</p>
                 <table>
                     <thead>
-                        <tr>
-                            <th colspan="2">Inputs</th>
-                            <th colspan="2">Outputs</th>
-                        </tr>
                         <tr>
                             <th>A</th>
                             <th>B</th>
@@ -529,10 +724,6 @@ Carry = A AND B
                 <p>Here is the truth table for a Full Adder:</p>
                 <table>
                     <thead>
-                        <tr>
-                            <th colspan="3">Inputs</th>
-                            <th colspan="2">Outputs</th>
-                        </tr>
                         <tr>
                             <th>A</th>
                             <th>B</th>
@@ -625,9 +816,75 @@ Carry = A AND B
     </div>
 
     <footer>
-        <p>LOGIC AND COMPUTER ADDITION 
-        </p>
+        <p>LOGIC AND COMPUTER ADDITION</p>
     </footer>
+
+    <script>
+        // Scroll progress indicator
+        window.addEventListener('scroll', () => {
+            const indicator = document.getElementById('scrollIndicator');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            indicator.style.width = scrolled + '%';
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize particles on load
+        window.addEventListener('load', createParticles);
+
+        // Add intersection observer for section animations
+        const sections = document.querySelectorAll('section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // Add hover effect to tables
+        document.querySelectorAll('tbody tr').forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+        });
+    </script>
 
 </body>
 </html>
