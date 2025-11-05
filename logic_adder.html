@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logic and Computer Addition</title>
+    
+    <style>
+        /* --- General Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        /* --- Layout & Container --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid #6366f1;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav ul li a {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav ul li a:hover::before {
+            left: 0;
+        }
+
+        nav ul li a:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        /* --- Main Content --- */
+        main {
+            background: linear-gradient(135deg, #1e1e3f 0%, #1a1a2e 100%);
+            padding: 3rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            margin-bottom: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            font-weight: 800;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #a5b4fc;
+            margin: 2rem 0 1rem;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            color: #cbd5e1;
+        }
+
+        ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: #cbd5e1;
+        }
+
+        strong {
+            color: #e0e7ff;
+            font-weight: 700;
+        }
+
+        /* --- Tables (for Truth Tables) --- */
+        table {
+            width: 100%;
+            max-width: 550px;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 30px 0;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+            background: #1a1a2e;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        th {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        tbody tr:hover {
+            background-color: rgba(99, 102, 241, 0.15);
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        td {
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            color: #e0e7ff;
+            font-weight: 600;
+        }
+
+        /* --- Code Blocks (for Logic) --- */
+        pre {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #c7d2fe;
+            padding: 24px;
+            border-radius: 12px;
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            font-size: 1.05rem;
+            overflow-x: auto;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            line-height: 1.8;
+            margin: 20px 0;
+            border-left: 4px solid #6366f1;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #a5b4fc;
+            font-size: 0.95rem;
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin: 0 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        footer p {
+            color: #cbd5e1;
+            margin: 0;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            th, td {
+                padding: 12px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Logic and Computer Addition</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#gates">Logic Gates</a></li>
+            <li><a href="#half-adder">Half Adder</a></li>
+            <li><a href="#full-adder">Full Adder</a></li>
+            <li><a href="#multi-bit">Multi-Bit Adders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <main>
+            <section id="intro">
+                <h2>Introduction: Binary and Logic</h2>
+                <p>
+                    At their core, computers operate using <strong>binary</strong>—a system of 0s and 1s (also known as 'low' and 'high' voltage, or 'false' and 'true'). All the complex tasks a computer performs, from browsing the web to complex calculations, are built upon simple logical operations.
+                </p>
+                <p>
+                    To perform arithmetic, like <strong>1 + 1 = 10</strong> (in binary), computers don't use gears or calculators. Instead, they use microscopic electronic switches called <strong>transistors</strong>, which are combined to create <strong>logic gates</strong>.
+                </p>
+            </section>
+
+            <section id="gates">
+                <h2>The Building Blocks: Logic Gates</h2>
+                <p>Logic gates are the fundamental components of digital circuits. They take one or more binary inputs (0 or 1) and produce a single binary output based on a simple rule.</p>
+                
+                
+                <h3>AND Gate</h3>
+                <p>Outputs 1 **only if** Input A **AND** Input B are both 1.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Inputs</th>
+                            <th>Output</th>
+                        </tr>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>A AND B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>OR Gate</h3>
+                <p>Outputs 1 **if** Input A **OR** Input B (or both) are 1.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Inputs</th>
+                            <th>Output</th>
+                        </tr>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>A OR B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>XOR Gate (Exclusive OR)</h3>
+                <p>This gate is crucial for addition. It outputs 1 **only if** the inputs are different. Think of it as "one or the other, but not both."</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Inputs</th>
+                            <th>Output</th>
+                        </tr>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>A XOR B</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="half-adder">
+                <h2>The Half Adder</h2>
+                <p>
+                    A <strong>Half Adder</strong> is the simplest arithmetic circuit. Its job is to add two single binary digits (bits) together. It has two inputs (A and B) and two outputs:
+                </p>
+                <ul>
+                    <li><strong>Sum (S):</strong> The result of the addition.</li>
+                    <li><strong>Carry (C):</strong> The "overflow" bit (like when 1 + 1 = 10, the Sum is 0 and the Carry is 1).</li>
+                </ul>
+                <p>
+                    A Half Adder is built using two basic gates:
+                </p>
+                <pre>
+Sum   = A XOR B
+Carry = A AND B
+                </pre>
+                
+
+[Image of a half adder logic diagram]
+
+                <p>Here is the truth table for a Half Adder:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="2">Inputs</th>
+                            <th colspan="2">Outputs</th>
+                        </tr>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>Carry (C)</th>
+                            <th>Sum (S)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="full-adder">
+                <h2>The Full Adder</h2>
+                <p>
+                    The Half Adder is great, but it has a major problem: it can't accept a "Carry" bit from a previous addition. To add multi-bit numbers (like 1011 + 0101), we need to be able to add three bits: <strong>A</strong>, <strong>B</strong>, and a <strong>Carry-In (C-in)</strong>.
+                </p>
+                <p>
+                    A <strong>Full Adder</strong> does exactly this. It has three inputs (A, B, C-in) and two outputs (Sum, Carry-Out).
+                </p>
+                <p>
+                    A Full Adder can be built using two Half Adders and an OR gate.
+                </p>
+                
+                <p>Here is the truth table for a Full Adder:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="3">Inputs</th>
+                            <th colspan="2">Outputs</th>
+                        </tr>
+                        <tr>
+                            <th>A</th>
+                            <th>B</th>
+                            <th>C-in</th>
+                            <th>C-out</th>
+                            <th>Sum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>0</td>
+                            <td>1</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section id="multi-bit">
+                <h2>Multi-Bit Addition: The Ripple-Carry Adder</h2>
+                <p>
+                    Now we have all the pieces. To add multi-bit numbers (like 4-bit, 8-bit, or 64-bit), we chain Full Adders together.
+                </p>
+                <p>
+                    This is called a <strong>Ripple-Carry Adder</strong>. The <strong>Carry-Out (C-out)</strong> from the first Full Adder becomes the <strong>Carry-In (C-in)</strong> for the next one. This "ripples" the carry bit down the line, just like when you do addition by hand.
+                </p>
+                <p>For example, a 4-bit adder would be structured like this:</p>
+                
+                <ul>
+                    <li>The first Full Adder (for the 1s place) takes A0, B0, and a C-in (which is usually 0).</li>
+                    <li>Its C-out feeds into the C-in of the second Full Adder.</li>
+                    <li>The second Full Adder (for the 2s place) takes A1, B1, and the C-in from the previous stage.</li>
+                    <li>...and so on for all 4 bits.</li>
+                </ul>
+                <p>This simple, chainable design is what allows a computer's Arithmetic Logic Unit (ALU) to perform basic addition, which is the foundation for all other math.</p>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>LOGIC AND COMPUTER ADDITION 
+        </p>
+    </footer>
+
+</body>
+</html>

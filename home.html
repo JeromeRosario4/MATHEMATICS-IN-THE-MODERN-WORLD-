@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Logic and Computer Addition</title>
+    
+    <style>
+        /* --- General Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+
+        /* --- Layout & Container --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* --- Header --- */
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #ffffff;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid #6366f1;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.5; }
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        header p {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #a5b4fc;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        nav ul li a {
+            color: #a5b4fc;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        nav ul li a:hover::before {
+            left: 0;
+        }
+
+        nav ul li a:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+        }
+
+        nav ul li a.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        /* --- Main Content --- */
+        main {
+            background: linear-gradient(135deg, #1e1e3f 0%, #1a1a2e 100%);
+            padding: 3rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            margin-bottom: 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+            border-radius: 2px;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            color: #cbd5e1;
+        }
+
+        /* --- Team Members Section --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.05) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.1) 100%);
+            transition: left 0.4s ease;
+            z-index: 0;
+        }
+
+        .team-member:hover::before {
+            left: 0;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.4);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .team-member > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 4px solid #6366f1;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .team-member:hover .member-photo {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.6);
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e0e7ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: #a5b4fc;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .member-bio {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* --- Report Overview Section --- */
+        .report-overview {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
+        }
+
+        .report-overview h3 {
+            font-size: 1.8rem;
+            color: #a5b4fc;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .report-overview p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+
+        .report-overview ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+            list-style: none;
+        }
+
+        .report-overview li {
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .report-overview li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: #6366f1;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.6);
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #a5b4fc;
+            font-size: 0.95rem;
+            background: rgba(26, 26, 46, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            margin: 0 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        footer p {
+            color: #cbd5e1;
+            margin: 0;
+        }
+        
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            main {
+                padding: 2rem 1.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .report-overview {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Logic and Computer Addition</h1>
+        <p>Understanding How Computers Perform Arithmetic</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="logic_adder.html">Logic Gates & Adders</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <main>
+            <section id="team">
+                <h2>Meet Our Team</h2>
+                <div class="team-grid">
+                    <div class="team-member">
+                        <div class="member-photo">M</div>
+                        <h3 class="member-name">Ma. Erica Shelley Peque</h3>
+                        <p class="member-role">BSIT-S-3A-T</p>
+                        <!-- <p class="member-bio">Specialized in digital logic design and computer architecture. Passionate about breaking down complex concepts into understandable explanations.</p> -->
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-photo">J</div>
+                        <h3 class="member-name">Jerome Steven Rosario</h3>
+                        <p class="member-role">BSIT-S-3A-T</p>
+                        <!-- <p class="member-bio">Expert in creating educational content for technology topics. Focused on making technical documentation accessible to all learners.</p> -->
+                    </div>
+
+                    <div class="team-member">
+                        <div class="member-photo">E</div>
+                        <h3 class="member-name">Ernesto M. Tolin III</h3>
+                        <p class="member-role">BSIT-S-3A-T</p>
+                        <!-- <p class="member-bio">Skilled in creating engaging visual representations of technical concepts. Dedicated to enhancing learning through thoughtful design.</p> -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="report">
+                <h2>About This Report</h2>
+                <div class="report-overview">
+                    <h3>Understanding Computer Addition Through Logic Gates</h3>
+                    <p>
+                        This report explores the fundamental principles of how computers perform arithmetic operations, specifically focusing on binary addition. At the heart of every computer's ability to calculate lies a series of simple logical operations performed by logic gates.
+                    </p>
+                    <p>
+                        Our comprehensive guide covers:
+                    </p>
+                    <ul>
+                        <li><strong>Binary Number Systems:</strong> How computers use 0s and 1s to represent all data and perform calculations</li>
+                        <li><strong>Logic Gates:</strong> The basic building blocks (AND, OR, XOR) that enable all digital computation</li>
+                        <li><strong>Half Adders:</strong> Simple circuits that add two single binary digits</li>
+                        <li><strong>Full Adders:</strong> Advanced circuits that handle carry bits for multi-digit addition</li>
+                        <li><strong>Ripple-Carry Adders:</strong> How multiple adders chain together to perform complex arithmetic</li>
+                    </ul>
+                    <p>
+                        By understanding these fundamental concepts, you'll gain insight into the elegant simplicity underlying even the most complex computational systems. 
+                    <a href="logic_adder.html" class="cta-button">Explore Logic Gates & Adders →</a>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <footer>
+        <p>Logic and Computer Addition
+        </p>
+    </footer>
+
+</body>
+</html>
