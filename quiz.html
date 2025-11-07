@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Binary Logic Quiz (Answers Hidden)</title>
+  <style>
+    :root{
+      --bg:#f8fafc; --card:#ffffff; --muted:#6b7280; --accent:#0ea5a4;
+      --shadow: 0 6px 18px rgba(15,23,42,0.06);
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body{background:var(--bg); margin:24px; color:#0f172a;}
+    .container{max-width:900px; margin:0 auto;}
+    header{display:flex;align-items:center;gap:16px;margin-bottom:16px;}
+    h1{font-size:1.25rem;margin:0;}
+    .controls{margin-left:auto;display:flex;gap:8px;}
+    .btn{
+      background:var(--accent); color:white; border:0; padding:8px 12px; border-radius:8px;
+      cursor:pointer; box-shadow:var(--shadow); font-weight:600;
+    }
+    .btn.ghost{background:transparent;color:var(--accent);border:2px solid var(--accent);padding:6px 10px;}
+    .card{background:var(--card); border-radius:12px; padding:16px; box-shadow:var(--shadow); margin-bottom:12px;}
+    .qhead{display:flex;align-items:center;gap:12px;}
+    .qnum{font-weight:700; color:var(--accent);}
+    .question{margin:6px 0 10px 0; font-size:1rem;}
+    .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:8px; margin-bottom:12px;}
+    .option{background:#f1f5f9;padding:8px;border-radius:8px;border:1px solid #e6eef2;}
+    .answer{
+      margin-top:8px;padding:10px;border-radius:8px;border-left:4px solid var(--accent);background:#ecfeff;
+      display:none; /* hidden by default */
+    }
+    .answer.visible{display:block;}
+    .small{font-size:0.9rem;color:var(--muted);}
+    .reveal-btn{background:#0ea5a4;color:#fff;border:0;padding:6px 10px;border-radius:8px;cursor:pointer;font-weight:600;}
+    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:0.9rem;}
+    @media (max-width:520px){ .options{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Binary Logic — Quick Quiz</h1>
+      <div class="controls">
+        <button id="toggle-all" class="btn">Show All Answers</button>
+        <button id="collapse-all" class="btn ghost">Collapse All</button>
+      </div>
+    </header>
+
+    <!-- Quiz questions -->
+    <div id="quiz-wrap">
+      <!-- Template for questions; repeated below with content -->
+      <div class="card" data-q="1">
+        <div class="qhead">
+          <div class="qnum">1.</div>
+          <div class="small">What numbering system do computers use to perform all operations?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Decimal</div>
+          <div class="option">B. Binary</div>
+          <div class="option">C. Octal</div>
+          <div class="option">D. Hexadecimal</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. Binary</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="2">
+        <div class="qhead">
+          <div class="qnum">2.</div>
+          <div class="small">What digits are used in the binary number system?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. 0–9</div>
+          <div class="option">B. 0–7</div>
+          <div class="option">C. 0 and 1</div>
+          <div class="option">D. 1–9</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> C. 0 and 1</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="3">
+        <div class="qhead">
+          <div class="qnum">3.</div>
+          <div class="small">What does each digit in a binary number represent?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. A power of 2</div>
+          <div class="option">B. A power of 10</div>
+          <div class="option">C. A group of four bits</div>
+          <div class="option">D. A voltage signal only</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> A. A power of 2</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="4">
+        <div class="qhead">
+          <div class="qnum">4.</div>
+          <div class="small">What are the two voltage levels in digital logic typically referred to as?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. High and low</div>
+          <div class="option">B. Positive and neutral</div>
+          <div class="option">C. Full and empty</div>
+          <div class="option">D. Light and dark</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> A. High and low</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="5">
+        <div class="qhead">
+          <div class="qnum">5.</div>
+          <div class="small">What electronic component is used to create logic gates?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Switches</div>
+          <div class="option">B. Capacitors</div>
+          <div class="option">C. Transistors</div>
+          <div class="option">D. Diodes</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> C. Transistors</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="6">
+        <div class="qhead">
+          <div class="qnum">6.</div>
+          <div class="small">What does an AND gate output when both inputs are 1?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. 0</div>
+          <div class="option">B. 1</div>
+          <div class="option">C. Undefined</div>
+          <div class="option">D. Alternating signal</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. 1</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="7">
+        <div class="qhead">
+          <div class="qnum">7.</div>
+          <div class="small">What is the output of an AND gate when both inputs are 0?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. 1</div>
+          <div class="option">B. 0</div>
+          <div class="option">C. Undefined</div>
+          <div class="option">D. Random</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. 0</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="8">
+        <div class="qhead">
+          <div class="qnum">8.</div>
+          <div class="small">What is the output of an OR gate when both inputs are 0?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. 1</div>
+          <div class="option">B. 0</div>
+          <div class="option">C. Undefined</div>
+          <div class="option">D. Alternating signal</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. 0</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="9">
+        <div class="qhead">
+          <div class="qnum">9.</div>
+          <div class="small">What is the output of an OR gate when at least one input is 1?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. 0</div>
+          <div class="option">B. 1</div>
+          <div class="option">C. Alternating</div>
+          <div class="option">D. Undefined</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. 1</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="10">
+        <div class="qhead">
+          <div class="qnum">10.</div>
+          <div class="small">What does an XOR (Exclusive OR) gate output when both inputs are the same?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. 1</div>
+          <div class="option">B. 0</div>
+          <div class="option">C. Random</div>
+          <div class="option">D. Undefined</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. 0</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="11">
+        <div class="qhead">
+          <div class="qnum">11.</div>
+          <div class="small">What is the XOR gate’s function rule?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Outputs 1 if both inputs are 1</div>
+          <div class="option">B. Outputs 1 if inputs are different</div>
+          <div class="option">C. Outputs 1 if both inputs are 0</div>
+          <div class="option">D. Outputs 1 if any input is 0</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. Outputs 1 if inputs are different</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="12">
+        <div class="qhead">
+          <div class="qnum">12.</div>
+          <div class="small">In a Half Adder, what does the XOR gate represent?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Carry output</div>
+          <div class="option">B. Sum output</div>
+          <div class="option">C. Overflow bit</div>
+          <div class="option">D. Borrow bit</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. Sum output</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="13">
+        <div class="qhead">
+          <div class="qnum">13.</div>
+          <div class="small">In a Half Adder, what does the AND gate represent?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Carry output</div>
+          <div class="option">B. Sum output</div>
+          <div class="option">C. Overflow bit</div>
+          <div class="option">D. Reset signal</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> A. Carry output</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="14">
+        <div class="qhead">
+          <div class="qnum">14.</div>
+          <div class="small">What is the formula for a Half Adder?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Sum = A OR B; Carry = A AND B</div>
+          <div class="option">B. Sum = A XOR B; Carry = A AND B</div>
+          <div class="option">C. Sum = A AND B; Carry = A XOR B</div>
+          <div class="option">D. Sum = A NOR B; Carry = A NAND B</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. Sum = A XOR B; Carry = A AND B</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="15">
+        <div class="qhead">
+          <div class="qnum">15.</div>
+          <div class="small">What limitation does a Half Adder have?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. It cannot process binary inputs</div>
+          <div class="option">B. It cannot handle carry inputs from previous additions</div>
+          <div class="option">C. It only works with decimal numbers</div>
+          <div class="option">D. It produces no output</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. It cannot handle carry inputs from previous additions</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="16">
+        <div class="qhead">
+          <div class="qnum">16.</div>
+          <div class="small">What is the main improvement of a Full Adder over a Half Adder?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. It uses fewer gates</div>
+          <div class="option">B. It can add three bits (A, B, and Carry-in)</div>
+          <div class="option">C. It only uses XOR gates</div>
+          <div class="option">D. It ignores carry input</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. It can add three bits (A, B, and Carry-in)</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="17">
+        <div class="qhead">
+          <div class="qnum">17.</div>
+          <div class="small">What logic gates are used to build a Full Adder?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Two XOR, two AND, and one OR gate</div>
+          <div class="option">B. One OR, one XOR, and one NOT gate</div>
+          <div class="option">C. Two AND and two OR gates</div>
+          <div class="option">D. Three NAND gates only</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> A. Two XOR, two AND, and one OR gate</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="18">
+        <div class="qhead">
+          <div class="qnum">18.</div>
+          <div class="small">What is the Sum output equation for a Full Adder?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Sum = (A XOR B) XOR Cin</div>
+          <div class="option">B. Sum = (A AND B) OR Cin</div>
+          <div class="option">C. Sum = A OR B OR Cin</div>
+          <div class="option">D. Sum = (A XNOR B) AND Cin</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> A. Sum = (A XOR B) XOR Cin</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="19">
+        <div class="qhead">
+          <div class="qnum">19.</div>
+          <div class="small">What is the Carry output equation for a Full Adder?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. Cout = (A AND B) OR (Cin AND (A XOR B))</div>
+          <div class="option">B. Cout = (A OR B) AND Cin</div>
+          <div class="option">C. Cout = (A XOR B) AND Cin</div>
+          <div class="option">D. Cout = (A NOR B) OR Cin</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> A. Cout = (A AND B) OR (Cin AND (A XOR B))</div>
+        </div>
+      </div>
+
+      <div class="card" data-q="20">
+        <div class="qhead">
+          <div class="qnum">20.</div>
+          <div class="small">What happens in a multi-bit binary addition when a carry is generated from one bit position?</div>
+        </div>
+        <div class="question options">
+          <div class="option">A. It is ignored</div>
+          <div class="option">B. It becomes the carry input for the next bit</div>
+          <div class="option">C. It resets the sum</div>
+          <div class="option">D. It stops the operation</div>
+        </div>
+        <div>
+          <button class="reveal-btn" aria-expanded="false">Show Answer</button>
+          <div class="answer" role="region" aria-hidden="true"><strong>Answer:</strong> B. It becomes the carry input for the next bit</div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      Tip: Use the "Show Answer" buttons for self-checking. Answers are hidden by default.
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const quizWrap = document.getElementById('quiz-wrap');
+      const toggleAllBtn = document.getElementById('toggle-all');
+      const collapseAllBtn = document.getElementById('collapse-all');
+
+      // Individual reveal buttons
+      quizWrap.querySelectorAll('.card').forEach(card => {
+        const btn = card.querySelector('.reveal-btn');
+        const ans = card.querySelector('.answer');
+
+        btn.addEventListener('click', () => {
+          const isVisible = ans.classList.toggle('visible');
+          ans.setAttribute('aria-hidden', String(!isVisible));
+          btn.setAttribute('aria-expanded', String(isVisible));
+          btn.textContent = isVisible ? 'Hide Answer' : 'Show Answer';
+        });
+      });
+
+      // Toggle all (show/hide)
+      let allVisible = false;
+      toggleAllBtn.addEventListener('click', () => {
+        allVisible = !allVisible;
+        document.querySelectorAll('.answer').forEach(a => {
+          a.classList.toggle('visible', allVisible);
+          a.setAttribute('aria-hidden', String(!allVisible));
+        });
+        document.querySelectorAll('.reveal-btn').forEach(b => {
+          b.setAttribute('aria-expanded', String(allVisible));
+          b.textContent = allVisible ? 'Hide Answer' : 'Show Answer';
+        });
+        toggleAllBtn.textContent = allVisible ? 'Hide All Answers' : 'Show All Answers';
+      });
+
+      // Collapse all button (quick collapse)
+      collapseAllBtn.addEventListener('click', () => {
+        allVisible = false;
+        document.querySelectorAll('.answer').forEach(a => {
+          a.classList.remove('visible');
+          a.setAttribute('aria-hidden', 'true');
+        });
+        document.querySelectorAll('.reveal-btn').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          b.textContent = 'Show Answer';
+        });
+        toggleAllBtn.textContent = 'Show All Answers';
+      });
+    })();
+  </script>
+</body>
+</html>
